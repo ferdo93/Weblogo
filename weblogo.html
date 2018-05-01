@@ -1,0 +1,458 @@
+ <!--------------------------------------------------------
+ 
+            Vytvoril: Ferdinand Križan
+ 
+ -------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WebLogo</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="WL/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="WL/weblogo.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="WL/bootstrap/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="WL/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="WL/dist/css/skins/skin-blue-light.min.css">
+    <link rel="stylesheet" href="WL/app_css/pick-a-color-1.2.3.min.css">
+    <link rel="stylesheet" href="WL/app_css/sweetalert.css">
+    <link rel="stylesheet" href="WL/app_css/jquery.simplecolorpicker.css">
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="loader"></div>
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <span class="logo-mini"><b>W</b>L</span>
+                <span class="logo-lg"><b>Web</b>Logo</span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <ul class="nav pull-right list-group" style="width: auto; margin: 0px;">
+                    <li style="float:left;" class=""><a title="" href="https://docs.google.com/forms/d/e/1FAIpQLSd2xCx1mzOcMdPiGGR3NRI4bqIr01vXO5916IWDuzFdsxgsTw/viewform">DOTAZNÍK</a></li>
+                    <li style="float:left; padding-top:3px;">
+
+                        <span class="form-control" style="background-color:#3c8dbc; color: white; cursor: pointer;">
+	       <select id="country_select"  onchange="loadsLang(this.value);" style="background-color:#3c8dbc; color: white; cursor: pointer;"></select>
+		</span> </li>
+
+                    <li style="float:left;" class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="lang-save-file"></span> <span class="label label-important">2</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="sAdd" id="save" title="" href="#"><i class="icon-plus"></i><span class="lang-save-to-disk"></span></a></li>
+                            <li class="divider"></li>
+                            <li><a class="sOutbox" id="save-img" title="" href="#"><i class="icon-arrow-up"></i> <span class="lang-image"></span></a></li>
+                        </ul>
+                    </li>
+                    <li style="float:left;" class="">
+                        <a title="" href="#" id="attachfile">
+                            <label for="fileInput">
+		  <i class="icon icon-cog"></i>
+		  <span class="lang-load-file"></span> 
+		  <input id="fileInput" type="file"/ style="display:none"> 
+		 </label></a>
+                    </li>
+                    <li style="float:left;" class=""><a title="" href="#" id="about"><i class="icon icon-share-alt"></i> <span class="lang-about"></span></a></li>
+                </ul>
+
+            </nav>
+        </header>
+
+        <div class="content-wrapper" style="padding-bottom: 0;">
+            <section class="content-header">
+                <h1>
+                  WebLogo
+                  <small></small>
+               </h1>
+
+                <div class="btn-group btn-group-toggle-set" id="toggle_event_editing" data-toggle="buttons" style="display:table; margin: 0 auto;">
+                    <div class="btn active btn-default btn-responsive btn-sm" role="button">
+                        <input type="radio" name="options" id="radio_1" value="1" class="volna" required="required"><span class="lang-free-create"></span>
+                    </div>
+                    <div class="btn btn-default btn-responsive btn-sm" role="button" data-twbs-toggle-buttons-class-active="btn-warning">
+                        <input type="radio" name="options" id="radio_2" value="2" class="aktivity"><span class="lang-activity"></span>
+                    </div>
+                    <div class="btn btn-default btn-responsive btn-sm" role="button" data-twbs-toggle-buttons-class-active="btn-info">
+                        <input type="radio" name="options" id="radio_3" value="3"><span class="lang-list-of-activity"></span>
+                    </div>
+                    <div class="btn btn-default btn-responsive btn-sm" role="button" data-twbs-toggle-buttons-class-active="btn-danger">
+                        <input type="radio" name="options" id="radio_4" value="4"><span class="lang-guru"></span>
+                    </div>
+                </div>
+
+
+            </section>
+            <section class="content" style="padding-bottom: 0;">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <div class="row text-center" id="activity_box" style="margin: 20px">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" id="activity_level"><span class="lang-level"></span></h3>
+                                    </div>
+                                    <div class="panel-body" id="activity_content">Panel content</div>
+                                    <div class="panel-footer">
+                                        <div id="left_button" class="fa fa-arrow-circle-left fa-3x" style="cursor:pointer; margin: 0 10px"></div>
+                                        <div id="right_button" class="fa fa-arrow-circle-right fa-3x" style="cursor:pointer; margin: 0 10px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body" style="padding-top:0; padding-bottom:0;">
+                            <div class="row" id="commands-content">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <i class="fa  fa-desktop fa-fw"></i>
+                                            <span class="lang-window"></span>
+
+                                            <div class="btn btn-xs">
+                                                <label style="margin:0">
+                                       <input type="checkbox" value="" id="draw_check" onclick="set_draw();" style="margin:0">
+									
+									   <span class="lang-draw"></span>
+									   <span>&nbsp;	&nbsp;&nbsp;</span>
+                                       </label>
+
+                                            </div>
+                                            <button type="button" id="clear_draw" class="btn btn-danger btn-sm" style="display:none" onclick="clear_draw();"><span class="lang-delete"></span></button>
+
+                                            <div class="btn btn-xs pull-right">
+                                                <label>
+                                       <input type="checkbox" value="" id="checkbox" checked="true">
+									   <span class="lang-grid-settings"></span>
+									   <span>&nbsp;	&nbsp;&nbsp;</span>
+                                       </label>
+                                            </div>
+                                        </div>
+                                        <div class="chart" style="position: relative;">
+                                            <!-- Sales Chart Canvas -->
+                                            <canvas id="canvas" style="border: #ddd;" height="670" width="670" onscroll="scroll()"></canvas>
+                                            <!--<canvas id="canavas_draw" style="border: #ddd; position: absolute; top:0px; left:0px; z-index:1" height="670" width="670" ></canvas>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="area" style="display: none">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <span class="">Guru</span> &nbsp; &nbsp; &nbsp; &nbsp;<a href="#" style="padding-bottom: 0; padding-top: 0;" data-toggle="popover" data-html="true" class="btn btn-warning btn-sm" title="Zoznam príkazov" data-placement="bottom"
+                                                data-content="Príkaz dopredu: <b>dopredu</b> + hodnota(číslo) <br>Príkaz vpravo: <b>vpravo</b> + hodnota(číslo)<br>Príkaz vľavo: <b>vlavo</b> + hodnota(číslo)<br>Nastavenie farby: <b>farba</b> (v hexa sústave)<br>Výpis textu: <b>vypis</b><br>Pero hore: <b>pero hore</b><br>Pero dole: <b>pero dole</b><br>Hrúbka pera <b>hrubka</b> + hodnota(číslo)<br>Bodka: <b>bodka</b> + hodnota(číslo)<br>Cyklus: <b>opakuj</b> ( opakuj pocet [ prikazy ] )<br>Vytvorenie procedury: <b>definuj</b> ( definuj nazov (parametre) [prikazy] )<br>Zavolanie procedury: <b>meno procedury</b><br>">Zobraz nápovedu</a>
+                                        <div class="terminal">
+                                            <textarea class="line" id="program_code" data-role="none">
+								  </textarea>
+                                        </div>
+                                        <div class="alert alert_info text-center" role="alert" id="com_alert" style="margin-bottom: 0;">
+                                            <!--<strong>Podarilo sa!</strong> Príkazy sa úspešne vykonali.-->
+                                            &nbsp;
+                                        </div>
+                                        <button class="btn btn-success btn-block" id="program-run" type="button"><span class="lang-run-commands"></span></button>
+                                        <!-- /.chart-responsive -->
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8" id="create-proc" style="display: none">
+                                    <div class="panel panel-info panel-collapse command">
+                                        <div class="panel-heading">
+                                            <div class="row text-center">
+                                                <p class="col-lg-3 col-md-3 col-sm-2 col-xs-2 col-centered proc-name" style="cursor: pointer"></p>
+                                                <button type="button" class="btn btn-danger btn-sm col-centered pull-right" id="close_create" style="margin-right: 5%;"><i class="fa fa-window-close">X</i></button>
+                                                <button class="btn btn-success fa fa-plus-square" type="button"><span>&nbsp;</span><span class="lang-add-parameter">Pridaj parameter</span></button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="parameter-variables" style="text-align: center">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="panel-body command-list command-list2">
+                                            <ul class="list-unstyled" style="height: 100%;">
+                                            </ul>
+                                        </div>
+                                        <div class="panel-footer text-center command com-end">
+                                            <p class="col-centered"><span class="lang-end-procedure"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal fade" id="show-proc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title" id="show-proc-name"></h2>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+                                            </div>
+                                            <div class="modal-body text-center" id="show-proc-parameters">
+
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul id="command-list3" style="padding-left: 0;">
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer text-center">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvor</button>
+                                                <button type="button" class="btn btn-primary" id="show-proc-change" data-dismiss="modal">Zmena</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="show-error" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title" id="">Chyba</h2>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+                                            </div>
+                                            <div class="modal-body text-center" id="show-error-log">
+
+                                            </div>
+                                            <div class="modal-footer text-center">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Zatvor</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="show-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title" id="">Informácie</h2>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+                                            </div>
+                                            <div class="modal-body text-center" id="">
+                                                <span>Vytvoril: Ferdinand Križan </span></br>
+                                                <span>Verzia: 1.0</span></br>
+                                                <span>Aplikácia bola vytvorená, ako projekt k diplomovej práci.</span></br>
+                                                <a href="file:WL/documents/prirucka.pdf">Zobraz používateľskú príručku</a>
+                                            </div>
+                                            <div class="modal-footer text-center">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Zatvor</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8" id="commands-panel">
+                                    <div class="panel panel-info textarea">
+                                        <div class="panel-heading"><span class="lang-panel-commands"></span>
+                                            <div class="pull-right">
+                                                <div class="btn-group">
+                                                    <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle fa fa-cog" type="button">
+                                    
+                                          <span class="caret"></span>
+                                          </button>
+                                                    <ul role="menu" class="dropdown-menu pull-right">
+                                                        <li>
+                                                            <a href="" id="clear_commands">
+                                                                <div class="lang-clear-commands"></div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body command-list" style="position:relative;">
+                                            <ul class="list-unstyled" style="height: 100%; position:relative;">
+
+
+
+
+
+                                            </ul>
+                                        </div>
+                                        <div class="panel-footer lang-end-commands" id="command_footer"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" id="panel_comm" style="min-height:650px">
+
+                                    <div class="panel panel-info text-center command-panel " id="com-panel">
+                                        <div class="panel-heading"><span class="lang-commands"></span></div>
+                                        <table class="table table-bordered table-condensed table-responsive" id="panel-commands" style="border:black;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                                                        <div class="panel-body tools forward" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-forward"></span></small>
+                                                            <img src="WL/app_images/forward.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                                                        <div class="panel-body tools set_pen_down" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-set_pen_down"></span></small>
+                                                            <img src="WL/app_images/pen.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="panel-body tools left" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-left"></span></small>
+                                                            <img src="WL/app_images/left.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="panel-body tools set_pen_up" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-set_pen_up"></span></small>
+                                                            <img src="WL/app_images/break-pen.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="panel-body tools right" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-right"></span></small>
+                                                            <img src="WL/app_images/right.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="panel-body tools loop" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-loop"></span></small>
+                                                            <img src="WL/app_images/loop.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="min-height:110px;">
+                                                    <td>
+                                                        <div class="panel-body tools pw" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-pen-weight"></span></small>
+                                                            <img src="WL/app_images/line-width.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="panel-body tools pc" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-pen_color"></span></small>
+                                                            <img src="WL/app_images/color.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="min-height:110px;">
+                                                    <td>
+                                                        <div class="panel-body tools point" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-point"></span></small>
+                                                            <img src="WL/app_images/point.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+
+
+                                                        <div class="panel-body tools word_text" style="cursor:pointer;">
+                                                            <small class="text-center"><span class="lang-text_word"></span></small>
+                                                            <img src="WL/app_images/word.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="min-height:110px;">
+                                                    <td colspan="2">
+                                                        <div class="panel-body" id="create-procedure" style="cursor:pointer; background-color: #DCDCDC;">
+                                                            <small class="text-center btn btn-success"><span class="lang-new_procedure"></span></small>
+                                                            <img src="WL/app_images/package2.png" class="img-responsive" alt="Cinque Terre">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <div class="text-center"><span class="lang-procedures"></span></div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="min-height:110px;">
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <!-- /.row -->
+                            </div>
+                            <div id="cards" class="row list-group">
+
+                            </div>
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right">
+                <span>Icon mades by <a href="https://www.freepik.com/">Freepik</a>, <a href="https://roundicons.com/">Roundicons</a> and <a href="https://icon54.com/">Pixel perfect</a> from <a href="www.flaticon.com">www.flaticon.com</a>. Style by: <a href="https://adminlte.io">Almsaeed Studio</a></span>
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2018 <a href="#">Ferdinand Križan</a>.</strong> All rights reserved.
+
+        </footer>
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 2.2.0 -->
+
+    <script src="WL/app_js/Libraries/jQuery-2.2.0.min.js"></script>
+
+    <!-- Bootstrap 3.3.5 -->
+    <script src="WL/bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="WL/dist/js/app.min.js"></script>
+    <script src="WL/app_js/Libraries/jquery-ui.min.js"></script>
+
+    <script src="WL/app_js/Libraries/jquery.mobile-1.4.5.min.js"></script>
+    <script src="WL/app_js/Libraries/jquery.ui.touch-punch.js"></script>
+
+    <script src="WL/app_js/Libraries/jquery.twbs-toggle-buttons.min.js"></script>
+
+
+    <script src="WL/app_js/Libraries/es6-shim.min.js"></script>
+    <script src="WL/config.js"></script>
+    <script src="WL/lang/web-language.js"></script>
+    <script src="WL/lang/language-commands.js"></script>
+    <script src="WL/app_js/syntax_api.js"></script>
+
+    <script src="WL/app_js/templates.js"></script>
+
+    <script src="WL/app_js/execute_commands.js"></script>
+
+    <script src="WL/Aktivity/aktivity.js"></script>
+    <script src="WL/app_js/syntax_tree.js"></script>
+    <script src="WL/app_js/core.js"></script>
+    <script src="WL/app_js/weblogo.js"></script>
+    <script src="WL/app_js/Libraries/tinycolor-0.9.15.min.js"></script>
+    <script src="WL/app_js/Libraries/jquery.simplecolorpicker.js"></script>
+    <!--<script src="WL/pick-a-color-1.2.3.min.js"></script>-->
+    <script src="WL/app_js/Libraries/sweetalert-dev.js"></script>
+
+</body>
+
+</html>

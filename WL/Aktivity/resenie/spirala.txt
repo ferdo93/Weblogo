@@ -1,0 +1,6 @@
+farba '#c2c2c2' 
+hrubka 9 
+opakuj 9 [  
+    dopredu index 
+    vpravo 90 
+]  

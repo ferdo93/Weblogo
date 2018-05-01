@@ -1,0 +1,770 @@
+
+let VARIABLES = {};
+let SUBROUTINES = {};
+let LOCALL = null;
+
+// Syntax tree
+class Expression{
+    Evaluate() {
+        return 0;
+    }
+}
+
+class Const extends Expression{
+    Value;
+    Name;
+    constructor(nValue, nName) {
+        super()//?
+        this.Value = nValue;
+        this.Name = nName;
+    }
+    Evaluate() {
+        if (String(this.Value)) {
+            return this.Value;
+        }
+        if (this.Name != "") {
+            if (this.Value in SUBROUTINES[this.Name].Variables) {
+                return SUBROUTINES[this.Name].Variables[this.Value];
+            }
+        }
+        else {
+            for (let key in SUBROUTINES){
+                if (this.Value in SUBROUTINES[key].Variables) {
+                    return SUBROUTINES[key].Variables[this.Value]
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
+class BinaryOperation extends Expression{
+    L;
+    R;
+    constructor(nL, nR) {
+        super();
+        this.L = nL;
+        this.R = nR;
+    }
+}
+
+class Add extends BinaryOperation{
+    Evaluate() {
+        return this.L.Evaluate() + this.R.Evaluate();
+    }
+}
+
+class Sub extends BinaryOperation{
+    Evaluate() {
+        return this.L.Evaluate() - this.R.Evaluate();
+    }
+}
+
+class Mul extends BinaryOperation{
+    Evaluate() {
+        return this.L.Evaluate() * this.R.Evaluate();
+    }
+}
+
+class Div extends BinaryOperation{
+    Evaluate() {
+        return this.L.Evaluate() / this.R.Evaluate();
+    }
+}
+/*
+class IsLess extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() < this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+class IsLessOrEqual extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() <= this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+class Equal extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() == this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+class IsGreaterOrEqual extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() >= this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+class IsGreater extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() > this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+class IsDifferent extends BinaryOperation{
+    Evaluate() {
+        if (this.L.Evaluate() != this.R.Evaluate()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+
+*/
+class Command{
+    Execute(){}
+}
+
+class TurtleCommand extends Command{
+    Param;
+    constructor(nparam) {
+        super();
+        this.Param = nparam;
+    }
+}
+
+class FD extends TurtleCommand{
+
+    Execute() {
+        console.log("Dopredu "+this.Param.Evaluate());
+    }
+}
+
+class LT extends TurtleCommand{
+
+    Execute() {
+        console.log("Vlavo "+this.Param.Evaluate());
+    }
+}
+
+class RT extends TurtleCommand{
+
+    Execute() {
+        console.log("Vpravo "+this.Param.Evaluate());
+    }
+}
+
+class PC extends TurtleCommand{
+
+    Execute() {
+        console.log("Farba pera "+this.Param.Evaluate());
+    }
+}
+
+class PW extends TurtleCommand{
+
+    Execute() {
+        console.log("Hrubka pera "+this.Param.Evaluate());
+    }
+}
+
+class PT extends TurtleCommand{
+
+    Execute() {
+        console.log("Bodka "+this.Param.Evaluate());
+    }
+}
+
+class Commands extends Command{
+    Items = []; //???????????????????????????????????????????????
+    constructor(nitems) {
+        super(); //??????
+        //this.Items = nitems;
+		for(var i of nitems){
+			this.Items.push(i);
+		}
+    }
+    public Add(item) {
+        this.Items.push(item);
+    }
+    public Execute() {
+        for (var item of this.Items) {
+            item.Execute();
+        }
+    }
+}
+
+class Print extends Command{
+    Value: Expression;
+    constructor(nValue) {
+        super();
+        this.Value = nValue;
+    }
+    Execute() {
+        console.log("Vypis: "+this.Value.Evaluate());
+    }
+}
+
+class Repeat extends Command{
+    Count: Expression;
+    Body: Commands;
+    constructor(nCount: Expression, nBody: Commands) {
+        super();
+        this.Count = nCount;
+        this.Body = nBody;
+    }
+
+    public Execute() {
+        var n = this.Count.Evaluate();
+        while (n > 0) {
+            console.log("");
+            this.Body.Execute();
+            n = n - 1;
+            if ("index" in VARIABLES) {
+                VARIABLES["index"] = Number(VARIABLES["index"]) + 1;
+            }
+        }
+        VARIABLES["index"] = 1;
+    }
+}
+/*
+class While extends Command{
+    Test: Expression;
+    Body: Command;
+    constructor(nTest, nBody) {
+        super();
+        this.Test = nTest;
+        this.Body = nBody;
+    }
+    Execute() {
+        while (this.Test.Evaluate() != 0) {
+            this.Body.Execute();
+        }
+    }
+}
+
+class If extends Command{
+    Test: Expression;
+    BodyTrue: Command;
+    BodyFalse: any;
+    constructor(nTest, nBodyTrue, nBodyFalse) {
+        super();
+        this.Test = nTest;
+        this.BodyFalse = nBodyFalse;
+        this.BodyTrue = nBodyTrue;
+    }
+    Execute() {
+        if (this.Test.Evaluate() != 0) {
+            this.BodyTrue.Execute();
+        }
+        else if (this.BodyFalse != "") {
+            this.BodyFalse.Execute();
+        }
+    }
+}
+*/
+class Var extends Expression{
+    Name;
+    constructor(nName) {
+        super();
+        this.Name = nName;
+    }
+    Evaluate() {
+        return VARIABLES[this.Name];
+    }
+}
+
+class GlobalVar extends Var{
+    //Name: Subroutine;
+    constructor(nName) {
+        super(nName);
+        //this.Name = nName;
+    }
+}
+
+class LocalVar extends Var{
+    Local: Subroutine;
+    constructor(nName, nLocal) {
+        super(nName);
+        this.Local = nLocal;
+
+    }
+}
+
+class Assign extends Command{
+    Variable: Var;
+    Value: Expression;
+    constructor(nVariable: Var, nValue: Expression) {
+        super();
+        this.Variable = nVariable;
+        this.Value = nValue;
+    }
+    Execute() {
+        VARIABLES[this.Variable.Name] = this.Value.Evaluate();
+    }
+}
+
+class Subroutine extends Command{
+    Name: string;
+    Parameters: string[];
+    Variables;
+    Body: Commands;
+    constructor(nName) {
+        super();
+        this.Name = nName;
+        this.Parameters = [];
+    }
+    PrepareParameters() {
+        var delta = -1 - (this.Parameters.length);
+        for (var param in this.Parameters) { //????????????????
+            this.Variables[param] = delta;
+            delta++
+        }
+    }
+    public EExute() {
+        this.Body.Execute();
+    }
+    public Set_arguments(args) {
+        var index = 0;
+        for (let i in this.Parameters) {
+            if (args.length >= SUBROUTINES[this.Name].Variables.length) {
+                if (i in SUBROUTINES[this.Name].Variables) {
+                    SUBROUTINES[this.Name].Variables[i] = args[index].Value;
+                }
+                else {
+                    SUBROUTINES[this.Name].Variables[i] = 0;
+                }
+            }
+            else {
+                if (index < args.length) { //CHYBA!
+                    if (i in SUBROUTINES[this.Name].Variables) {
+                        SUBROUTINES[this.Name].Variables[i] = args[index].Value;
+                    }
+                    else {
+                        SUBROUTINES[this.Name].Variables[i] = 0;
+                    }
+                }
+                else {
+                    SUBROUTINES[this.Name].Variables[i] = 0;
+                }
+            }
+            index++;
+        }
+    }
+}
+
+class Call extends Expression{
+    Name: string;
+    Arguments: Expression[];
+    constructor(nName, nArguments) {
+        super();
+        this.Name = nName;
+        this.Arguments = nArguments;
+    }
+}
+
+class Perform extends Expression{
+    Name: string;
+    Arguments: Expression[];
+    constructor(nName, nArguments) {
+        super();
+        this.Name = nName;
+        this.Arguments = nArguments;
+    }
+    public Execute() {
+        console.log("-----"+this.Name+"-----");
+        SUBROUTINES[this.Name].Set_arguments(this.Arguments);
+        SUBROUTINES[this.Name].EExecute();
+    }
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function isWord(n) {
+    return n.match("^[a-zA-Z]+$");
+}
+
+class Interpreter{
+    input;
+    look;
+    index;
+    token;
+    procedure_name;
+    constructor() {
+        this.input = "";
+        this.look = '';
+        this.index = 0;
+        this.token = "";
+        this.procedure_name = "";
+    }
+    public next() {
+        if (this.index >= this.input.length) {
+            this.look = String.fromCharCode(0);
+        }
+        else {
+            this.look = this.input[this.index];
+            this.index++;
+        }
+    }
+    public scan() {
+        while ((this.look == ' ') || (this.look == '\n')) {
+            this.next();
+        }
+        this.token = "";
+
+        if (isWord(this.look)) { 
+            while (isWord(this.look)) {
+                this.token += this.look;
+                this.next();
+            }
+        }
+
+        else if (isNumeric(this.look)) {
+            while (isNumeric(this.look)) {
+                this.token += this.look;
+                this.next();
+            }
+            if (this.look == '.') {
+                while (isNumeric(this.look)) {
+                    this.token += this.look;
+                    this.next();
+                }               
+            }
+            if (this.look == 'e') {
+                this.next();
+                this.token += this.look;
+                while (isNumeric(this.look)) {
+                    this.token += this.look;
+                    this.next();
+                }                
+            }
+        }
+
+        else if (this.look.charCodeAt() == 0) {
+            this.token = this.look;
+        }
+
+        else if (this.look == '<' || this.look == '>') {
+            this.token = this.look;
+            this.next();
+            if (this.look == '=') {
+                this.token += this.look;
+                this.next();
+            }
+        }
+
+        else if (this.look.charCodeAt() == 0) {
+            this.token = this.look;
+            this.next();
+        }
+    }
+
+    public number() {
+        var result;
+
+        if (isNumeric(this.token)) {
+            result = new Const(parseInt(this.token), this.procedure_name);
+            this.scan();
+        }
+
+        else if ((LOCALL != null) && (this.token in LOCALL.Variables)) {
+            result = new GlobalVar(this.token);
+            this.scan();
+        }
+        else if (this.token in VARIABLES) {
+            result = GlobalVar[this.token];
+            this.scan();
+        }
+        else if (this.token in SUBROUTINES) {
+            var name = this.token;
+            this.scan();
+            result = new Call(name, this.args());
+        }
+        else{
+            for (let key in SUBROUTINES) {
+                if (this.token in SUBROUTINES[key].Variables) {
+                    result = new Const(this.token, this.procedure_name);
+                }
+            }
+        }
+        
+        return result;
+    }
+
+    public sum() {
+        var result = this.number();
+        while (true) {
+            if (this.token == "+") {
+                this.scan();
+                result = result + this.number();
+            }
+            else if (this.token == "-") {
+                this.scan();
+                result = result - this.number();
+            }
+            else {
+                return result;
+            }
+        }
+        return result;
+    }
+
+    public evaluate(text) {
+        this.input = text;
+        this.index = 0;
+        this.next();
+        this.scan();
+    }
+
+    public muldiv() {
+        var result = this.minus();
+        while (true) {
+            if (this.token == "*") {
+                this.scan();
+                result = new Mul(result, this.number());
+            }
+            else if (this.token == "/") {
+                this.scan();
+                result = new Div(result, this.number());
+            }
+            else {
+                return result;
+            }
+        }
+        return result;
+    }
+
+    public addsub() {
+        var result = this.muldiv();
+        while (true) {
+            if (this.token == "+") {
+                this.scan();
+                result = new Add(result,this.muldiv());
+            }
+            else if (this.token == "-") {
+                this.scan();
+                result = new Sub(result,this.muldiv());
+            }
+            else {
+                return result;
+            }
+        }
+        return result;
+    }
+
+    public braces() {
+        var result = this.minus();
+        if (this.token != "(") {
+            return this.number();
+        }
+        this.scan();
+        this.addsub();
+        if (this.token == ")") {
+            this.scan();
+        }
+        return result;
+    }
+
+    public minus() {
+        if (this.token != "-") {
+            return this.braces();
+        }
+        this.scan();
+        return (- this.braces());
+    }
+
+    public args() {
+        var result = [];
+        if (this.token == "(") {
+            this.scan();
+            while ((this.token != "") && (this.token != ")")) {
+                result.push(this.addsub());
+                if (this.token == ",") {
+                    this.scan();
+                }
+            }
+            if (this.token == ")") {
+                this.scan();
+            }
+        }
+        return result;
+    }
+
+    public parse() {
+        var result;
+        while (true) {
+            if (this.token == "dopredu") {
+                this.scan();
+                result.Add(new FD(this.addsub()));
+            }
+            else if (this.token == "vlavo") {
+                this.scan();
+                result.Add(new LT(this.addsub()));
+            }
+            else if (this.token == "vpravo") {
+                this.scan();
+                result.Add(new RT(this.addsub()));
+            }
+            else if (this.token == "hrubka") {
+                this.scan();
+                result.Add(new PW(this.addsub()));
+            }
+            else if (this.token == "farba") {
+                this.scan();
+                result.Add(new PC(this.addsub()));
+            }
+            else if (this.token == "bodka") {
+                this.scan();
+                result.Add(new PT(this.addsub()));
+            }
+            else if (this.token == "vypis") {
+                this.scan();
+                result.Add(new Print(this.addsub()));
+            }
+            else if (this.token == "opakuj") {
+                VARIABLES["index"] = 1; //  Vytvorime si premennu v cykle
+                this.scan();
+                var count = this.addsub();
+                if (this.token == "[") {
+                    this.scan();
+                    var body = this.parse();
+                }
+                if (this.token == "]") {
+                    this.scan();
+                    result.Add(new Repeat(count, body));
+                }
+            }
+            
+            else if (this.token == "definuj") {
+                if (LOCALL != null) {
+                    alert("Chyba, nespravne miesto");
+                }
+                this.scan();
+                LOCALL = new Subroutine(this.token.toString());
+                SUBROUTINES[this.token.toString()] = LOCALL;
+                this.procedure_name = this.token;
+
+                this.scan();
+                if (this.token == "(") {
+                    this.scan();
+                    while (isWord(this.token.toString())) {
+                        LOCALL.Parameters.push(this.token.toString());
+                        this.scan();
+                        if (this.token == ",") {
+                            this.scan();
+                        }
+                    }
+                    if (this.token == ")") {
+                        this.scan();
+                    }
+                    LOCALL.PrepareParameters();
+                }
+                if (this.token == "[") {
+                    this.scan();
+                    LOCALL.Body = this.parse();
+                    if (this.token == "]") {
+                        this.scan();
+                    }
+                }
+                result.Add(LOCALL);
+                LOCALL = null;
+            }
+            else if (isWord(this.token.toString())) {
+                var name = this.token.toString();
+                this.scan();
+                if (this.token == "=") {
+                    this.scan();
+                    var expr = this.addsub();
+                    if (LOCALL != null) {
+                        if (name in LOCALL.Variables) {
+                            result.Add(new Assign(new LocalVar(name, LOCALL),expr));                            
+                        }
+                        else {
+                            var delta = Object.keys(LOCALL.Variable).length - LOCALL.Parameters.length + 1;
+                            result.Add(new Assign(new LocalVar(name, LOCALL),expr));                            
+                        }
+                    }
+                    else {
+                        if (name in VARIABLES) {
+                            result.Add(new Assign(new GlobalVar(name),expr));                           
+                        }
+                        else {
+                            VARIABLES[name] = Object.keys(VARIABLES).length;
+                            result.Add(new Assign(new GlobalVar(name),expr));                          
+                        }
+                    }
+
+                }
+                else if (name in SUBROUTINES) {
+                    result.Add(new Perform(name, this.args())); // stvorec 100
+                }
+                else {
+                    var chyba = true; // # Nemusi znamenat chybu, moze tam byt parameter vo funkcii
+                    for (let key in SUBROUTINES) {
+                        if (name in SUBROUTINES[key].Variables) {
+                            chyba = false;
+                            break;
+                        }
+                    }
+                    if (chyba) {
+                     alert("Chyba, nepoznam " + name + " " + this.token);                       
+                    }
+                }
+            }
+            else {
+                return result;
+            }
+        }
+    }
+
+    public test_strom() {
+        this.input = "definuj stvorec(d, c,e) [opakuj 4[dopredu d vpravo c bodka e hrubka 8]]";
+        
+        this.index = 0;
+        this.next();
+        this.scan();
+        var root = this.parse();
+        root.Execute();  
+        this.input = "definuj obdlznik(d, c) [hrubka 8 farba 3 opakuj 2[dopredu d vlavo 77]]";
+
+        this.input = "definuj stvorec(d, c,e) [opakuj 4[dopredu index vpravo c bodka e hrubka 8]]";
+        
+        this.index = 0;
+        this.next();
+        this.scan();
+        root = this.parse();
+        root.Execute();  
+
+        this.input = "stvorec(100, 20,9) stvorec(100, 20,9)";
+        this.index = 0;
+        this.next();
+        this.scan();
+        root = this.parse();
+        root.Execute();         
+    }
+}
+
+
+var strom = new Interpreter();
+strom.test_strom();

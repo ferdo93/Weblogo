@@ -1,0 +1,252 @@
+ /*------------------------------------------------------
+ 
+            Vytvoril: Ferdinand Križan
+ 
+ ------------------------------------------------------*/
+ 
+.btn-arrow-right, .btn-arrow-right-start {
+     position: relative;
+     padding-left: 18px;
+     padding-right: 18px;
+}
+ .btn-arrow-right, .btn-arrow-right-start {
+     padding-left: 36px;
+}
+ .btn-arrow-right-start:after, .btn-arrow-right:before, .btn-arrow-right:after {
+    /* make two squares (before and after), looking similar to the button */
+     content:"";
+     position: absolute;
+     top: 5px;
+    /* move it down because of rounded corners */
+     width: 22px;
+    /* same as height */
+     height: 22px;
+    /* button_outer_height / sqrt(2) */
+     background: inherit;
+    /* use parent background */
+     border: inherit;
+    /* use parent border */
+     border-left-color: transparent;
+    /* hide left border */
+     border-bottom-color: transparent;
+    /* hide bottom border */
+     border-radius: 0px 4px 0px 0px;
+    /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+     -webkit-border-radius: 0px 4px 0px 0px;
+     -moz-border-radius: 0px 4px 0px 0px;
+}
+ .btn-arrow-right-start:after, .btn-arrow-right:before, .btn-arrow-right:after {
+     transform: rotate(45deg);
+    /* rotate right arrow squares 45 deg to point right */
+     -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+     -o-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+}
+ .btn-arrow-right-start:before, .btn-arrow-right:before {
+    /* align the "before" square to the left */
+     left: -11px;
+}
+ .btn-arrow-right-start:after, .btn-arrow-right:after {
+    /* align the "after" square to the right */
+     right: -11px;
+}
+ .btn-arrow-right:after, .btn-arrow-right-start:after {
+    /* bring arrow pointers to front */
+     z-index: 1;
+}
+ .btn-arrow-right:before {
+    /* hide arrow tails background */
+     background-color: white;
+}
+ .card {
+     margin-top: 1em;
+}
+ .form-control {
+     border: none;
+}
+ .control-label {
+     margin: .5em 1em 0;
+}
+ :root {
+    /* larger checkbox */
+}
+ :root label.checkbox-bootstrap input[type=checkbox] {
+    /* hide original check box */
+     opacity: 0;
+     position: absolute;
+}
+ :root label.checkbox-bootstrap input[type=checkbox] + span.checkbox-placeholder {
+     width: 14px;
+     height: 14px;
+     border: 1px solid;
+     border-radius: 3px;
+    /*checkbox border color*/
+     border-color: #737373;
+     display: inline-block;
+     cursor: pointer;
+     margin: 0 7px 0 -20px;
+     vertical-align: middle;
+     text-align: center;
+}
+ :root label.checkbox-bootstrap input[type=checkbox]:checked + span.checkbox-placeholder {
+     background: #0ccce4;
+}
+ :root label.checkbox-bootstrap input[type=checkbox]:checked + span.checkbox-placeholder:before {
+     display: inline-block;
+     position: relative;
+     vertical-align: text-top;
+     width: 5px;
+     height: 9px;
+    /*checkmark arrow color*/
+     border: solid white;
+     border-width: 0 2px 2px 0;
+    /*can be done with post css autoprefixer*/
+     -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+     -o-transform: rotate(45deg);
+     transform: rotate(45deg);
+     content: "";
+}
+ :root label.checkbox-bootstrap input[type=checkbox]:disabled + span.checkbox-placeholder {
+     background: #ececec;
+     border-color: #c3c2c2;
+}
+ :root label.checkbox-bootstrap input[type=checkbox]:checked:disabled + span.checkbox-placeholder {
+     background: #d6d6d6;
+     border-color: #bdbdbd;
+}
+ :root label.checkbox-bootstrap input[type=checkbox]:focus:not(:hover) + span.checkbox-placeholder {
+     outline: 1px dotted black;
+}
+ :root label.checkbox-bootstrap.checkbox-lg input[type=checkbox] + span.checkbox-placeholder {
+     width: 26px;
+     height: 26px;
+     border: 2px solid;
+     border-radius: 5px;
+    /*checkbox border color*/
+     border-color: #737373;
+}
+ :root label.checkbox-bootstrap.checkbox-lg input[type=checkbox]:checked + span.checkbox-placeholder:before {
+     width: 9px;
+     height: 15px;
+    /*checkmark arrow color*/
+     border: solid white;
+     border-width: 0 3px 3px 0;
+}
+ ul.pagination{
+     position: fixed;
+}
+ #panel_commands{
+     z-index: 1;
+}
+ .btn-circle.btn-xl {
+     width: 70px;
+     height: 70px;
+     padding: 10px 16px;
+     border-radius: 35px;
+     font-size: 24px;
+     line-height: 1.33;
+}
+ .btn-circle {
+     width: 30px;
+     height: 30px;
+     padding: 6px 0px;
+     border-radius: 15px;
+     text-align: center;
+     font-size: 12px;
+     line-height: 1.42857;
+}
+ .terminal textarea{
+     background: black;
+     color: white;
+     font: courier;
+     padding: 10px;
+     height: 100%;
+     overflow: hidden;
+}
+ .line{
+     display: table;
+     width: 100%;
+}
+ .terminal span{
+     display:table-cell;
+     width:1px;
+}
+ .terminal #program_code{
+     display:table-cell;
+     width:100%;
+     border: none;
+     background: white;
+     color: black;
+     outline: none;
+     font-size: large;
+     font-family: "Times New Roman";
+}
+ .ui-content {
+     padding: 0 !important;
+}
+ .ui-listview {
+     margin: 0 !important;
+}
+ .example-wrapper, .example-wrapper div.iscroll-scroller {
+     width: 100% !important;
+}
+ .pagination2 {
+     display: inline-block;
+     z-index:999999 !important;
+     margin:0;
+     padding: 0;
+     height: 100%;
+}
+ .pagination2 a {
+     color: black;
+     float: left;
+     padding: 8px 16px;
+     text-decoration: none;
+     transition: background-color .3s;
+     border: 1px solid #ddd;
+     font-size: 18px;
+     height: 100%;
+}
+ .pagination2 a.active {
+     background-color: #4CAF50;
+     color: white;
+     border: 1px solid #4CAF50;
+}
+ .pagination2 a:hover:not(.active) {
+     background-color: #7D3C98;
+     color: white;
+}
+ ul.command-list {
+     height:100%;
+}
+ .alert_success{
+     background-color: #dff0d8;
+}
+ .alert_info{
+     background-color: #d9edf7;
+}
+ .alert_alert{
+     background-color: #f9b1b2;
+}
+ #com-panel .panel-body {
+     padding: 5%;
+}
+ #com-panel img {
+     padding-top: 15%;
+}
+ .dropdown-menu {
+     overflow: visible;
+}
+ .loader {
+     position: fixed;
+     left: 0px;
+     top: 0px;
+     width: 100%;
+     height: 100%;
+     z-index: 9999;
+     background: url(app_images/loader.gif) center no-repeat #fff;
+}
+ 

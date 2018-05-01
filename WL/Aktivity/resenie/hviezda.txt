@@ -1,0 +1,9 @@
+farba '#c2c2c2' 
+hrubka 9 
+opakuj 8 [  
+    dopredu 3 
+    bodka 1 
+    vpravo 135 
+    dopredu 3 
+    vpravo 270 
+]  
